@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+int balanced(int h , int*a){
+    if(h<=1) return 1;
+    
+    if(a[h]!=-1) return a[h];
+    int x= balanced(h-1 , a);
+    int y =balanced(h-2 , a);
+    int mod = (int)(pow(10,9) + 7);
+    
+    int temp1=(int) (((long)(x)*x)%mod);
+     int temp2=(int) ((2*(long)(x)*y)%mod);
+
+    a[h] = (temp1 +temp2 ) %mod;
+    
+    return a[h];
+}
+
+
+
+
+
+int balancedBTs(int n) {
+    // Write your code here
+    int *a = new int[n+1];
+    for(int i=0;i<n+1;i++){
+          if(i==0 || i==1) a[i]=1;
+          else a[i] = -1;
+    }
+    return balanced(n , a);
+}
