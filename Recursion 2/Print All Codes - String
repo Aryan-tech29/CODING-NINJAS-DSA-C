@@ -1,0 +1,56 @@
+Print all Codes - String
+Send Feedback
+Assume that the value of a = 1, b = 2, c = 3, ... , z = 26. You are given a numeric string S. Write a program to print the list of all possible codes that can be generated from the given string.
+Note : The order of codes are not important. Just print them in different lines.
+Input format :
+A numeric string S
+Output Format :
+All possible codes in different lines
+Constraints :
+1 <= Length of String S <= 10
+Sample Input:
+1123
+Sample Output:
+aabc
+kbc
+alc
+aaw
+kw
+
+
+#include <string.h>
+using namespace std;
+
+void print(string input ,char output[] ,int i ,int j){
+    if(input[i]=='\0'){
+        output[j]='\0';
+        cout<<output<<endl;
+            return;
+    }
+    int first = input[i]-'0';
+    char firstC = first+'a'-1;
+    output[j]=firstC;
+    print(input , output , i+1,j+1);
+    
+    
+    if(input[i+1]!='\0'){
+    int no = input[i+1]-'0';
+    int second = first*10+no;
+    if(second<=26){
+        char secondC = second+'a'-1;
+        output[j]=secondC;
+        print(input , output , i+2,j+1);
+    }
+    }
+    return;
+}
+
+void printAllPossibleCodes(string input) {
+    /*
+    Given the input as a string, print all its possible combinations. You do not need to return anything.
+    */
+    char output[1000];
+    
+    print(input , output , 0 , 0);
+}
+
