@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+
+int knapsack(int* weights , int* values , int n , int maxWeight , int **dp){
+       
+    if(n==0 || maxWeight==0) return 0;
+    if(dp[maxWeight][n]!=-1)  return dp[maxWeight][n];
+  if(weights[0]>maxWeight) return dp[maxWeight][n]=dp[maxWeight][n]= knapsack(weights+1,values+1, n-1,maxWeight,dp);
+    
+     else
+        return dp[maxWeight][n]=dp[maxWeight][n]=max(values[0]+knapsack(weights+1,values+1,n-1,maxWeight-weights[0],dp),
+                   knapsack(weights+1,values+1,n-1,maxWeight,dp));
+}
+
+int knapsack(int* weight, int* value, int n, int maxWeight) {
+	// Write your code here
+    int dp[101][21]
+   
+    return knapsack(weight , value , n , maxWeight , dp);
+}
