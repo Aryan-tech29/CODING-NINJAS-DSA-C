@@ -1,0 +1,106 @@
+Pair sum in a BST
+Send Feedback
+Given a binary search tree and an integer S, find pair of nodes in the BST which sum to S. You can use extra space of the order of O(log n).
+Note:
+1. Assume BST contains all unique elements.
+2. In a pair, print the smaller element first.
+Input Format :
+The first line of input contains data of the nodes of the tree in level order form. The data of the nodes of the tree is separated by space. If any node does not have left or right child, take -1 in its place. Since -1 is used as an indication whether the left or right nodes exist, therefore, it will not be a part of the data of any node.   
+The following line of input contains an integer, that denotes the value of S.
+Output format:
+You have to print each pair in a different line (pair elements separated by space). The order of different pairs, to be printed, does not matter.
+Constraints:
+Time Limit: 1 second   
+Sample Input 1:
+8 5 10 2 6 -1 -1 -1 -1 -1 7 -1 -1
+12
+Sample Output 1:
+2 10
+5 7
+
+
+/**********************************************************
+
+	Following is the Binary Tree Node class structure
+
+	template <typename T>
+	class BinaryTreeNode {
+    	public: 
+    	T data;
+    	BinaryTreeNode<T> *left;
+    	BinaryTreeNode<T> *right;
+
+    	BinaryTreeNode(T data) {
+        	this->data = data;
+        	left = NULL;
+        	right = NULL;
+    	}
+	};
+	
+***********************************************************/
+#include<vector>
+#include<stack>
+stack<BinaryTreeNode<int>*> ls;
+stack<BinaryTreeNode<int>*> rs;
+
+
+BinaryTreeNode<int> *ls_val(stack<BinaryTreeNode<int>*> &ls){
+    if(ls.empty()) return NULL;
+    BinaryTreeNode<int>* next = ls.top();
+    ls.pop();
+    BinaryTreeNode<int>* t = next->right;
+    while(t){
+        ls.push(t);
+        t=t->left;
+    }
+    return next;
+        
+}
+
+
+BinaryTreeNode<int> *rs_val(stack<BinaryTreeNode<int>*> &rs){
+    if(rs.empty()) return NULL;
+     BinaryTreeNode<int>* next = rs.top();
+    rs.pop();
+    BinaryTreeNode<int>* t = next->left;
+    while(t){
+        rs.push(t);
+        t=t->right;
+    }
+    return next;
+        
+}
+
+void leftIterator(BinaryTreeNode<int>* root , stack<BinaryTreeNode<int>*> &ls ){
+    while(root){
+        ls.push(root);
+        root=root->left;
+    }
+}
+
+void rightIterator(BinaryTreeNode<int>* root , stack<BinaryTreeNode<int>*> &rs){
+    while(root){
+        rs.push(root);
+        root=root->right;
+    }
+}
+
+void printNodesSumToS(BinaryTreeNode<int> *root, int s) {
+    // Write your code here
+  leftIterator(root , ls);
+  rightIterator(root , rs);
+  BinaryTreeNode<int> *left = ls_val(ls);
+  BinaryTreeNode<int> *right = rs_val(rs);
+  while(left && right && left!=right){
+      if(left->data + right->data == s){
+          cout<<left->data<<" "<<right->data<<endl;
+          left = ls_val(ls);
+          right = rs_val(rs);
+      }
+      else{
+          if(left->data + right->data < s) left = ls_val(ls);
+          else right = rs_val(rs);
+      }
+  }
+    
+}
